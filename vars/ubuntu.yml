@@ -1,0 +1,14 @@
+---
+# zerodowntime.logrotate/vars/ubuntu.yml
+
+#? logtotate__def_su:
+#?   type: bool
+#?   description: default logrotate su param for ubuntu
+#?   required: True
+logtotate__def_su: root syslog
+
+#? logtotate__def_dateext:
+#?   type: bool
+#?   description: default logrotate dateext param for ubuntu
+#?   required: True
+logtotate__def_dateext: false

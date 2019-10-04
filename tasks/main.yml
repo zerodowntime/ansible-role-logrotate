@@ -1,0 +1,55 @@
+---
+# zerodowntime.logrotate/tasks/main.yml
+
+- name: logrotate | load os vars
+  vars:
+    vars_files:
+      - "vars/{{ ansible_distribution|lower }}.{{ ansible_distribution_major_version|int }}.yml"
+      - "vars/{{ ansible_distribution|lower }}.yml"
+  include_vars: "{{ lookup('first_found', vars_files) }}"
+  tags:
+    - logtotate
+    - logtotate::install
+
+
+- name: logtotate | install logtotate packages
+  package:
+    name: "{{ logtotate__pacakge_name }}"
+    state: "{{ logtotate__package_state }}"
+  tags:
+    - logtotate
+    - logtotate::install
+
+
+- name: 'logtotate | main config file'
+  template:
+    src: "logrotate.conf.j2"
+    dest: /etc/logrotate.conf
+    owner: root
+    group: root
+    mode: 0644
+    seuser: system_u
+    serole: object_r
+    setype: etc_t
+  tags:
+    - logtotate
+    - logtotate::configure
+
+
+- name: 'logtotate | logtotate.d configs'
+  vars:
+    config: "{{ item.value }}"
+  template:
+    src: logrotate_d.conf.j2
+    dest: "/etc/logrotate.d/{{ item.key }}"
+    owner: root
+    group: root
+    mode: 0644
+    seuser: system_u
+    serole: object_r
+    setype: etc_t
+  loop: "{{ logtotate__d|dict2items }}"
+  when: logtotate__d
+  tags:
+    - logtotate
+    - logtotate::configure

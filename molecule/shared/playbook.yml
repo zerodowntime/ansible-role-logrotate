@@ -1,0 +1,28 @@
+---
+- name: This_play
+  hosts: all
+  become: true
+
+  pre_tasks:
+
+    - name: apt-get update
+      apt:
+        update_cache: true
+      when: ansible_distribution == 'Ubuntu'
+      changed_when: false
+
+  roles:
+    - role: zerodowntime.logrotate
+      logtotate__d:
+        example:
+          logs:
+            - /var/log/zdt/*.log
+            - /var/log/zerodowntime/*.log
+          missingok: true
+          nocreate: false
+          postrotate: |
+            /usr/bin/logger zdt-logrotate
+          notifempty: true
+          size: false
+          create: true
+          maxsize: 30k

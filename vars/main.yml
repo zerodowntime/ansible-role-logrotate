@@ -1,0 +1,8 @@
+---
+# zerodowntime.logrotate/vars/main.yml
+
+#? logtotate__pacakge_name:
+#?   type: string
+#?   description: installed package name
+#?   required: True
+logtotate__pacakge_name: logrotate

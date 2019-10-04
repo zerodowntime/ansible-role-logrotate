@@ -1,0 +1,14 @@
+---
+# zerodowntime.logrotate/vars/centos.yml
+
+#? logtotate__def_su:
+#?   type: bool
+#?   description: default logrotate su param for centos
+#?   required: True
+logtotate__def_su: false
+
+#? logtotate__def_dateext:
+#?   type: bool
+#?   description: default logrotate dateext param for cents
+#?   required: True
+logtotate__def_dateext: true

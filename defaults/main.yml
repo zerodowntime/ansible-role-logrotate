@@ -1,0 +1,72 @@
+---
+# zerodowntime.logrotate/defaults/main.yml
+
+#? logtotate__package_state:
+#?   type: string
+#?   description: Installed package state
+#?   required: True
+logtotate__package_state: present
+
+
+#? logtotate__retention:
+#?   type: string
+#?   description:  Rotation interval `daily` ,`monthly`
+#?   required: True
+logtotate__retention: daily
+
+#? logtotate__rotate:
+#?   type: int
+#?   description: Log files are rotated count times before being removed
+#?   required: True
+logtotate__rotate: 14
+
+
+#? logtotate__create:
+#?   type: bool or string
+#?   description: This rotates the log file and creates a new log file with the specified permissions, owner, and group
+#?   required: True
+logtotate__create: true
+
+
+#? logtotate__dateext:
+#?   type: bool
+#?   description: Archive old versions of log files adding a daily extension like YYYYMMDD instead of simply adding a number
+#?   required: True
+logtotate__dateext: "{{ logtotate__def_dateext }}"
+
+
+#? logtotate__compress:
+#?   type: bool
+#?   description:  This is used to compress the rotated log file with gzip.
+#?   required: True
+logtotate__compress: false
+
+
+#? logtotate__su:
+#?   type: string
+#?   description: Rotate log files set under this user and group instead of using default user/group
+#?   required: True
+logtotate__su: "{{ logtotate__def_su }}"
+
+
+#? logtotate__d:
+#?   type: dict
+#?   description: list of files in `logrotate.d` with his settings
+#?   required: True
+#?   default: {}
+#
+#   example:
+#     logs:
+#       - /var/log/chrony/*.log
+#     missingok: true
+#     nocreate: true
+#     sharedscripts: true
+#     postrotate: |
+#         /usr/bin/chronyc cyclelogs > /dev/null 2>&1 || true
+#     notifempty: true
+#     olddir: /var/log/samba/old
+#     copytruncate: true
+#     size: 30k
+#     create: true
+#     maxsize: 30k
+logtotate__d: {}

@@ -1,0 +1,74 @@
+#jinja2: lstrip_blocks:True, trim_blocks: True
+{{ ansible_managed|comment }}
+
+{% for file in config.logs %}
+{{ file }}
+{% endfor %}
+{
+{% if config.retention is defined and config.retention in ["daily","weekly"] %}
+  {{ config.retention }}
+{% endif%}
+{% if config.rotate is defined and config.rotate %}
+  rotate {{ config.rotate|int }}
+{% endif%}
+{% if config.missingok is defined and config.missingok %}
+  missingok
+{% endif%}
+{% if config.nocreate is defined and config.nocreate%}
+  nocreate
+{% endif%}
+{% if config.sharedscripts is defined and config.sharedscripts %}
+  sharedscripts
+{% endif%}
+{% if config.notifempty is defined and config.notifempty %}
+  notifempty
+{% endif%}
+{% if config.compress is defined and config.compress %}
+  compress
+{% endif%}
+{% if config.delaycompress is defined and config.delaycompress %}
+  delaycompress
+{% endif%}
+{% if config.dateext is defined and config.dateext %}
+  dateext
+{% endif%}
+{% if config.dateformat is defined  and config.dateformat %}
+  dateformat {{ config.dateformat }}
+{% endif%}
+{% if config.olddir is defined  and config.olddir %}
+  olddir {{ config.olddir }}
+{% endif%}
+{% if config.copytruncate is defined and config.copytruncate %}
+  copytruncate
+{% endif%}
+{% if config.size is defined and config.size %}
+  size {{ config.size }}
+{% endif%}
+{% if config.maxsize is defined and config.maxsize %}
+  maxsize {{ config.maxsize }}
+{% endif%}
+{% if config.create is defined and config.create %}
+  create {% if config.create is string %}{{ config.create }}{% endif %}
+{% endif%}
+
+{% if config.postrotate is defined and config.postrotate %}
+  postrotate
+    {{ config.postrotate|indent(4) }}
+  endscript
+{% endif%}
+{% if config.prerotate is defined and config.prerotate %}
+  prerotate
+    {{ config.prerotate|indent(4) }}
+  endscript
+{% endif%}
+{% if config.firstaction is defined and config.firstaction %}
+  firstaction
+    {{ config.firstaction|indent(4) }}
+  endscript
+{% endif%}
+{% if config.lastaction is defined and config.lastaction %}
+  lastaction
+    {{ config.lastaction|indent(4) }}
+  endscript
+{% endif%}
+}

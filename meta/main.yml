@@ -1,0 +1,24 @@
+---
+# zerodowntime.logrotate/meta/main.yml
+
+dependencies: []
+
+galaxy_info:
+  role_name: logrotate
+  author: ZeroDowntime <ansible@zerodowntime.pl>
+  description: Ansible role to install and setup logrotate service
+  company: ZeroDowntime Sp. z o.o.
+  license: Apache License 2.0
+  min_ansible_version: 2.7
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - bionic
+        - xenial
+  galaxy_tags:
+    - system
+    - logrotate
+    - logs

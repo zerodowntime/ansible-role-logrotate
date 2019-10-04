@@ -1,0 +1,41 @@
+#jinja2: lstrip_blocks:True, trim_blocks: True
+{{ ansible_managed|comment }}
+
+# see "man logrotate" for details
+
+{{ logtotate__retention }}
+rotate {{ logtotate__rotate }}
+
+{% if logtotate__create is defined and logtotate__create %}
+create {% if logtotate__create is string %}{{ logtotate__create }}{% endif %}
+{% endif %}
+
+{% if logtotate__dateext %}
+dateext
+{% endif %}
+{% if logtotate__compress %}
+compress
+{% endif %}
+{% if logtotate__su %}
+# use the syslog group by default, since this is the owning group of /var/log/syslog.
+su {{ logtotate__su }}
+{% endif %}
+
+# packages drop log rotation information into this directory
+include /etc/logrotate.d
+
+# no packages own wtmp and btmp -- we'll rotate them here
+/var/log/wtmp {
+    monthly
+    missingok
+    create 0664 root utmp
+	  minsize 1M
+    rotate 3
+}
+
+/var/log/btmp {
+    missingok
+    monthly
+    create 0600 root utmp
+    rotate 3
+}
